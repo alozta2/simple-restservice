@@ -4,20 +4,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class TaskRepr {
 
-	private long id;
+	private int id;
 	private String name;
 	private String description;
 	
 	
 	public TaskRepr() {
+		// Jackson deserialization
 	}
 	
-	public TaskRepr(long id, String name) {
+	public TaskRepr(int id, String name) {
 		this.id = id;
 		this.name = name;
 	}
 	
-	public TaskRepr(long id, String name, String description) {
+	public TaskRepr(int id, String name, String description) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -28,7 +29,7 @@ public class TaskRepr {
 		return id;
 	}
     
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

@@ -10,9 +10,11 @@ public class TodoRepr {
 	private String name;
 	private String description;
 	private List<TaskRepr> tasks;
+	private byte status;
 	
 	
 	public TodoRepr() {
+		// Jackson deserialization
 	}
 	
 	public TodoRepr(int id, String name) {
@@ -61,5 +63,14 @@ public class TodoRepr {
 	
 	public void setTasks(List<TaskRepr> tasks) {
 		this.tasks = tasks;
+	}
+
+    @JsonProperty
+	public byte getStatus() {
+		return status;
+	}
+
+	public void setStatus(byte status) {
+		this.status = status;
 	}
 }

@@ -17,7 +17,7 @@ public class SimpleRestServiceApplication extends Application<SimpleRestServiceC
 	/**
      * Specifying the entity classes and how to get a DataSourceFactory from your configuration subclass.
      */
-    private final HibernateBundle<SimpleRestServiceConfiguration> hibernateBundle
+    public static final HibernateBundle<SimpleRestServiceConfiguration> hibernateBundle
             = new HibernateBundle<SimpleRestServiceConfiguration>(
             		//List all entity classes here separated with commas
                     Todo.class,
@@ -81,5 +81,9 @@ public class SimpleRestServiceApplication extends Application<SimpleRestServiceC
 //                        configuration.getApiURL(),
 //                        configuration.getApiKey())
 //        );
+	}
+
+	public static HibernateBundle<SimpleRestServiceConfiguration> getHibernateBundle() {
+		return hibernateBundle;
 	}
 }

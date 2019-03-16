@@ -18,14 +18,20 @@ import javax.persistence.Table;
 @Table(name = "todo")
 @NamedQueries(
     {
+    	@NamedQuery(
+                name = "com.leanix.simple.restservice.core.Todo.findAll",
+                query = "SELECT t FROM Todo t "
+                		+ "WHERE status != 7"	//status 7 represents dummy todo, deleted tasks will be assign to this todo
+        ),
         @NamedQuery(
-            name = "com.leanix.simple.restservice.core.Todo.findAll",
-            query = "SELECT t FROM Todo t"
+            name = "com.leanix.simple.restservice.core.Todo.findAllByStatus",
+            query = "SELECT t FROM Todo t "
+            		+ "WHERE t.status = :status"
         ),
         @NamedQuery(
                 name = "com.leanix.simple.restservice.core.Todo.findByContent",
-                query = "select t from Todo t "
-                        + "where t.name like :name "
+                query = "SELECT t FROM Todo t "
+                        + "WHERE t.name like :name "
                 		+ "or t.description like :name"
             )
 })
@@ -42,7 +48,13 @@ public class Todo {
 	private String description;
 	
 	@OneToMany(targetEntity = Task.class, mappedBy = "todo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	List<Task> tasks;
+	private List<Task> tasks;
+	
+	/**
+	 * Status: 0 not-completed, 1 completed, 2 deleted ...
+	 * */
+	@Column(name = "status")
+	private byte status;
 
 	public Todo() {
 	}
@@ -56,6 +68,17 @@ public class Todo {
 	public Todo(String name, String description) {
 		this.name = name;
 		this.description = description;
+	}
+	
+	/**
+	 * Setting Task.todo to this class to persist the relation between them.
+	 * */
+	public Todo registerTaskTodoRelation() {
+		for(Task t : this.getTasks()) {
+			t.setTodo(this);
+		}
+		
+		return this;
 	}
 
 	public int getId() {
@@ -88,5 +111,13 @@ public class Todo {
 
 	public void setTasks(List<Task> tasks) {
 		this.tasks = tasks;
+	}
+
+	public byte getStatus() {
+		return status;
+	}
+
+	public void setStatus(byte status) {
+		this.status = status;
 	}
 }

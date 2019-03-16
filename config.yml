@@ -1,0 +1,45 @@
+content: Test message %s!
+
+#defaultMessage: ${DW_DEFAULT_NAME:-test}
+defaultMessage: test
+
+
+# use the simple server factory if you only want to run on a single port
+# access endpoint from localhost:8080/application/*
+server:
+  type: simple
+  connector:
+    type: http
+    port: 8080
+
+
+# Database settings.
+database:
+  driverClass: org.h2.Driver
+  user: sa
+  password: sa
+  #H2 database URLs
+  #In Memory
+  #jdbc:h2:mem:test multiple connections in one process
+  #jdbc:h2:mem: unnamed private; one connection
+  #Embedded
+  #jdbc:h2:~/test 'test' in the user home directory
+  url: jdbc:h2:mem:;DB_CLOSE_DELAY=-1;INIT=RUNSCRIPT FROM 'todos.sql'
+
+
+# Logging settings.
+logging:
+
+  # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
+  level: INFO
+
+  # Logger-specific levels.
+  loggers:
+
+    # Sets the level for 'com.example.app' to DEBUG.
+    com.example.app: DEBUG
+
+    # Redirects SQL logs to a separate file
+    org.hibernate.SQL:
+      level: DEBUG
+
